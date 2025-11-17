@@ -9,4 +9,7 @@ title="Dashboard Admin"
     ]
     ]">
     Holaaaaaaaaaaa
+    <x-wire-button>
+        Boton WireUI
+    </x-wire-button>
 </x-admin-layout>
