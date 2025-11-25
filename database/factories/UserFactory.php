@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
+use Faker\Factory as FakerFactory; // ⬅️ IMPORTANTE
 
 /**
  * @extends \Illuminate\Database\EloquentFactories\Factory<\App\Models\User>
@@ -26,9 +27,12 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        // Creamos un faker manualmente para evitar que $this->faker sea null
+        $faker = FakerFactory::create();
+
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'name' => $faker->name(),
+            'email' => $faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'two_factor_secret' => null,
