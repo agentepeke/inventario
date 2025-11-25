@@ -7,25 +7,10 @@
          'active' => request()->routeIs('admin.dashboard'),
       ],
       [
-         'header' => 'Administrar página'
-      ],
-      [
-         'name' => 'Usuarios',
-         'icon' => 'fa-solid fa-users',
-         'href' => route('admin.dashboard'),
-         'active' => false,
-         'submenu' => [
-            [
-               'name' => 'Productos',
-               'href' => '#',
-               'active'=> false
-            ],
-            [
-               'name' => 'Productos',
-               'href' => '#',
-               'active'=> false
-            ],
-         ]
+         'name' => 'Categorias',
+         'icon' => 'fa-solid fa-list',
+         'href' => route('admin.categories.index'),
+         'active' => request()->routeIs('admin.categories.*'),
       ],
    ];
 @endphp
