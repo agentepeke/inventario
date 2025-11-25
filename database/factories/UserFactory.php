@@ -8,31 +8,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
-use Faker\Factory as FakerFactory; // ⬅️ IMPORTANTE
 
-/**
- * @extends \Illuminate\Database\EloquentFactories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
     protected static ?string $password;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        // Creamos un faker manualmente para evitar que $this->faker sea null
-        $faker = FakerFactory::create();
+        static $userIncrement = 1;
 
         return [
-            'name' => $faker->name(),
-            'email' => $faker->unique()->safeEmail(),
+            'name' => 'User ' . $userIncrement++,
+            'email' => 'user' . uniqid() . '@example.com',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'two_factor_secret' => null,
@@ -43,9 +30,6 @@ class UserFactory extends Factory
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -53,9 +37,6 @@ class UserFactory extends Factory
         ]);
     }
 
-    /**
-     * Indicate that the user should have a personal team.
-     */
     public function withPersonalTeam(?callable $callback = null): static
     {
         if (! Features::hasTeamFeatures()) {
