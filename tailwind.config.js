@@ -23,8 +23,19 @@ export default {
     theme: {
         extend: {
             colors: {
-                // ESTO ARREGLA LIVEWIRE TABLES
+                // 1. TU TRUCO PARA LIVEWIRE TABLES
+                // Esto hace que lo que la tabla pinta como "índigo" se vea gris.
                 indigo: colors.gray, 
+
+                // 2. CONFIGURACIÓN DE COLORES WIREUI
+                // Aquí decides de qué color son los botones, inputs y alertas de WireUI.
+                
+                primary: colors.black,   
+                secondary: colors.gray,   
+                positive: colors.emerald, 
+                negative: colors.red,     
+                warning: colors.amber,    
+                info: colors.blue         
             },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],

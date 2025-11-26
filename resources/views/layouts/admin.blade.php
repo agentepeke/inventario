@@ -18,6 +18,9 @@
         <!-- FontAwesome -->
          <script src="https://kit.fontawesome.com/f4ff85607b.js" crossorigin="anonymous"></script>
 
+         <!-- SweetAlert -->
+         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <!-- WireUI -->
          <wireui:scripts />
 
@@ -26,6 +29,8 @@
 
         <!-- Styles -->
         @livewireStyles
+
+        @stack('css')
     </head>
     <body class="font-sans antialiased">
 
@@ -53,5 +58,16 @@
         @livewireScripts
 
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+        @if(session()->has('swal') )
+        <script>
+            Swal.fire({
+                ...(@json(session('swal'))),
+                confirmButtonColor: '#000000'
+            });
+        </script>
+        @endif
+
+        @stack('js')
     </body>
 </html>

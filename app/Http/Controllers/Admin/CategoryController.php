@@ -29,7 +29,20 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name',
+            'description' => 'nullable|string|max:1000',
+        ]);
+         
+        $category = Category::create($data);
+
+        session()->flash('swal', [
+            'title' => 'Excelente!!!',
+            'icon' => 'success',
+            'text' => 'La categoria se ha creado correctamente',
+        ]);
+
+        return redirect()->route('admin.categories.edit', $category);
     }
 
 
@@ -38,6 +51,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -46,7 +60,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'description' => 'nullable|string|max:1000',
+        ]);
+
+        $category->update($data);
+
+        session()->flash('swal', [
+            'title' => 'Excelente!!!',
+            'icon' => 'success',
+            'text' => 'La categoria se ha actualizado correctamente',
+        ]);
+
+        return redirect()->route('admin.categories.edit', $category);
     }
 
     /**
@@ -54,6 +81,24 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+
+        if ($category->products()->exists()) {
+            session()->flash('swal', [
+                'title' => 'Error!!!',
+                'icon' => 'error',
+                'text' => 'La categoria no se puede eliminar porque tiene productos asociados',
+            ]);
+            return redirect()->route('admin.categories.index');
+        }
+
+        $category->delete();
+
+        session()->flash('swal', [
+            'title' => 'Excelente!!!',
+            'icon' => 'success',
+            'text' => 'La categoria se ha eliminado correctamente',
+        ]);
+
+        return redirect()->route('admin.categories.index');
     }
 }
