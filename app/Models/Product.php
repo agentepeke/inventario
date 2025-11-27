@@ -24,7 +24,18 @@ class Product extends Model
     //Relacion muchos a muchos 
     public function inventories()
     {
-        return $this->belongsToMany(Inventory::class);
+        return $this->hasMany(Inventory::class);
+    }
+
+    //Relacion muchos a muchos polimorfica 
+    public function purchasesOrders()
+    {
+        return $this->morphedByMany(PurchaseOrder::class, 'productable');
+    }
+
+    public function quotes()
+    {
+        return $this->morphedByMany(Quote::class, 'productable');
     }
 
     //Relacion polimorfica
