@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -114,5 +115,22 @@ class ProductController extends Controller
         ]);
 
         return redirect()->route('admin.products.index');
+    }
+
+    public function dropzone(Request $request, Product $product)
+    {
+        $file = $request->file('file');
+        $path = Storage::put('/images', $file);
+        
+        $product->images()->create([
+            'path' => $path,
+            'size' => $file->getSize(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'id' => $product->images()->latest()->first()->id,
+            'path' => $path,
+        ]);
     }
 }
