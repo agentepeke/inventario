@@ -1,20 +1,33 @@
 <x-admin-layout 
-title="Categorias"
+title="Clientes"
 :breadcrumbs="[
     [
     'name' => 'Dashboard',
     'href' => route('admin.dashboard'),
     ],
-    ['name' => 'Categorias',
+    ['name' => 'Clientes',
     ]
     ]">
 
+    @push('css')
+    <style>
+        .image-product {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 5px;
+        }
+    </style>
+    @endpush
+
+
     <x-slot name="action">
-        <x-wire-button href="{{route('admin.categories.create')}}" light black>
-            Nueva categoria
+        <x-wire-button href="{{route('admin.customers.create')}}" light black>
+            Nuevo cliente
         </x-wire-button>
     </x-slot>
-    @livewire('admin.datatables.category-table')
+    @livewire('admin.datatables.customer-table')
 
     @push('js')
         <script>
@@ -24,7 +37,7 @@ title="Categorias"
                     e.preventDefault();
                     
                     Swal.fire({
-                        title: "¿Estas seguro de eliminar esta categoria?",
+                        title: "¿Estas seguro de eliminar este cliente?",
                         text: "No podras revertir esto!",
                         icon: "warning",
                         showCancelButton: true,

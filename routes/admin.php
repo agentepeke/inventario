@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\CustomerController;
 
 Route::get('/', function () {
     return view('admin.dashboard');

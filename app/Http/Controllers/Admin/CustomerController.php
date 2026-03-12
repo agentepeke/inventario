@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Identity;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -21,7 +22,8 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('admin.customers.create');
+        $identities = Identity::all();
+        return view('admin.customers.create', compact('identities'));
     }
 
     /**
@@ -29,7 +31,23 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'identity_id' => 'required|exists:identities,id',
+            'document_number' => 'required|min:3|max:20|unique:customers',
+            'name' => 'required|min:3|max:100',
+            'address' => 'nullable|string|min:3|max:255',
+            'email' => 'nullable|string|email|max:100',
+            'phone' => 'nullable|string|min:3|max:12',
+        ]);
+
+        $customer = Customer::create($request->all());
+        session()->flash('swal',[
+            'icon' => 'success',
+            'title' => 'Cliente creado exitosamente',
+            'text' => 'El cliente se ha creado correctamente',
+        ]);
+
+        return redirect()->route('admin.customers.index');
     }
 
 
@@ -38,7 +56,8 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        return view('admin.customers.edit', compact('customer'));
+        $identities = Identity::all();
+        return view('admin.customers.edit', compact('customer', 'identities'));
     }
 
     /**
@@ -46,7 +65,24 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $request->validate([
+            'identity_id' => 'required|exists:identities,id',
+            'document_number' => 'required|min:3|max:20|unique:customers,document_number,' . $customer->id,
+            'name' => 'required|min:3|max:100',
+            'address' => 'nullable|string|min:3|max:255',
+            'email' => 'nullable|string|email|max:100',
+            'phone' => 'nullable|string|min:3|max:12',
+        ]);
+
+        $customer->update($request->all());
+
+        session()->flash('swal',[
+            'icon' => 'success',
+            'title' => 'Cliente actualizado exitosamente',
+            'text' => 'El cliente se ha actualizado correctamente',
+        ]);
+
+        return redirect()->route('admin.customers.index');
     }
 
     /**
@@ -54,6 +90,12 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        session()->flash('swal',[
+            'icon' => 'success',
+            'title' => 'Cliente eliminado exitosamente',
+            'text' => 'El cliente se ha eliminado correctamente',
+        ]);
+        return redirect()->route('admin.customers.index');
     }
 }
