@@ -30,6 +30,12 @@
          'href' => route('admin.suppliers.index'),
          'active' => request()->routeIs('admin.suppliers.*'),
       ],
+      [
+         'name' => 'Almacenes',
+         'icon' => 'fa-solid fa-building',
+         'href' => route('admin.warehouses.index'),
+         'active' => request()->routeIs('admin.warehouses.*'),
+      ],
    ];
 @endphp
 

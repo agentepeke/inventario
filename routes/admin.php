@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\WarehouseController;
 
 Route::get('/', function () {
     return view('admin.dashboard');
@@ -25,6 +26,10 @@ Route::resource('customers', CustomerController::class)->except([
 ]);
 
 Route::resource('suppliers', SupplierController::class)->except([
+    'show',
+]);
+
+Route::resource('warehouses', WarehouseController::class)->except([
     'show',
 ]);
 
